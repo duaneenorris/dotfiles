@@ -24,7 +24,12 @@
 (defvar myPackages
   '(elpy
     flycheck
+    magit
     py-autopep8))
+
+(setq tramp-ssh-controlmaster-options
+      "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+(require 'tramp)
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -59,7 +64,7 @@
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 (global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
 (global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
-;; (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
