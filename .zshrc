@@ -68,5 +68,5 @@ DIRSTACKSIZE=8
 setopt autopushd pushdminus pushdsilent pushdtohome
 
 source /opt/ros/latest/setup.zsh
-source ~/ros/catkin_ant/devel/setup.zsh
+# source ~/ros/catkin_ant/devel/setup.zsh
 source ~/ros/catkin_ws/devel/setup.zsh
