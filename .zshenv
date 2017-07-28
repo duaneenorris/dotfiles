@@ -6,5 +6,5 @@ export PKG_CONFIG_PATH=/home/dnorris/local/lib/pkgconfig:/home/dnorris/ros/catki
 export GAZEBO_BASE_MODEL_PATH=/home/dnorris/ros/catkin_ws/src/gazebo_models
 export GAZEBO_MODEL_PATH=$GAZEBO_BASE_MODEL_PATH/models
 export GAZEBO_RESOURCE_PATH=~/ros/catkin/src/ant_gazebo
-export EDITOR=emacsclient
+export EDITOR=emacs
 
