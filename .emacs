@@ -65,6 +65,7 @@
 (global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
 (global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x p") 'py-autopep8-buffer)
 
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
@@ -72,8 +73,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
 
-(require 'py-autopep8)
-(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+;; (require 'py-autopep8)
+;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
 ;; Setup backups and versioning
 (setq
