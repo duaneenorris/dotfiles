@@ -58,6 +58,8 @@
 (setq require-final-newline t)
 (setq column-number-mode t)
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (global-set-key (kbd "C-x <up>") 'windmove-up)
 (global-set-key (kbd "C-x <down>") 'windmove-down)
 (global-set-key (kbd "C-x <left>") 'windmove-left)
