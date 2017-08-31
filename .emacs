@@ -114,10 +114,11 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
-(setq desktop-save                t
-      desktop-load-locked-desktop nil
-      desktop-auto-save-timeout   120)
-(desktop-save-mode 1)
+(when (display-graphic-p)
+  (setq desktop-save                t
+        desktop-load-locked-desktop nil
+        desktop-auto-save-timeout   120)
+  (desktop-save-mode 1))
 ;; (setq backup-directory-alist
 ;;           `((".*" . ,temporary-file-directory)))
 ;; (setq auto-save-file-name-transforms
