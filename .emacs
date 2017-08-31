@@ -25,7 +25,8 @@
   '(elpy
     flycheck
     magit
-    py-autopep8))
+    py-autopep8
+    powerline))
 
 (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
@@ -134,3 +135,6 @@
 ;;                   week))
 ;;       (message "%s" file)
 ;;       (delete-file file))))
+
+(require 'powerline)
+(powerline-default-theme)
