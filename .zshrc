@@ -9,7 +9,7 @@ if [ -n "$SSH_CLIENT" ]; then sshprompt='%F{yellow}(remote)%f'
 fi
 export PROMPT="%B%F{red}%n@%m%f$sshprompt:%~ %# %b"
 export RPROMPT='%F{red}%D{%H:%M %Y-%m-%d}%f'
-                              
+
 
 setopt histignorealldups sharehistory
 
@@ -67,6 +67,6 @@ fi
 DIRSTACKSIZE=8
 setopt autopushd pushdminus pushdsilent pushdtohome
 
-source /opt/ros/latest/setup.zsh
-# source ~/ros/catkin_ant/devel/setup.zsh
-source ~/ros/catkin_ws/devel/setup.zsh
+if [ -f ~/.zsh_append ]; then
+    . ~/.zsh_append
+fi
