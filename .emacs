@@ -138,3 +138,5 @@
 
 (require 'powerline)
 (powerline-default-theme)
+
+(setq confirm-kill-emacs 'y-or-n-p)
