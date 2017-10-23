@@ -137,6 +137,6 @@
 ;;       (delete-file file))))
 
 (require 'powerline)
-(powerline-default-theme)
+(powerline-center-theme)
 
 (setq confirm-kill-emacs 'y-or-n-p)
