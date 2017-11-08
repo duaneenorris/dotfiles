@@ -138,5 +138,12 @@
 
 (require 'powerline)
 (powerline-center-theme)
-
+(set-face-attribute 'mode-line nil
+                    :foreground "LightGrey"
+                    :background "firebrick"
+                    :box nil)
+(set-face-attribute 'mode-line-inactive nil
+                    :foreground "black"
+                    :background "firebrick4"
+                    :box nil)
 (setq confirm-kill-emacs 'y-or-n-p)
