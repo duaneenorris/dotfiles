@@ -43,7 +43,9 @@
   (add-hook 'elpy-mode-hook 'flycheck-mode)
   (add-hook 'c++-mode-hook 'flycheck-mode)
   (add-hook 'c-mode-hook 'flycheck-mode))
-(elpy-use-ipython)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+ ;;(elpy-use-ipython)
 
 (load-theme 'wombat)
 
