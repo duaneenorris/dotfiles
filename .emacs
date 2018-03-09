@@ -63,6 +63,9 @@
 (setq require-final-newline t)
 (setq column-number-mode t)
 
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; setup copy line
