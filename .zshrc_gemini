@@ -1,4 +1,4 @@
 source /opt/ros/latest/setup.zsh
 # source ~/ros/catkin_ant/devel/setup.zsh
 source ~/ros/src/bar_truck/catkin_ws/devel/setup.zsh
-source ~/bar-develop.zsh
+source ~/ros/src/snap_dev_tools/config/.zsh/zsh.d/bar-develop.zsh
