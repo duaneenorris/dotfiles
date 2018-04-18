@@ -18,31 +18,34 @@ function valid_ip()
 }
 
 function ros_setup_usage() {
-    echo "Usage:  ros_setup [-v][-a][-h] <n>"
+    echo "Usage:  ros_setup [-v][-a][-h][-p] <n>"
     echo " -v Use VPN IP address instead of name (10.210.232.103 instead of bar3)"
     echo " -a Use AWS VPN IP address instead of name (172.210.220.103 instead of bar3)"
+    echo " -p Setup a route to the payload shuttle"
     echo " -h Display this help message"
     echo " n = bar<n> or IP address"
     echo " Examples:"
     echo " ros_setup 3"
     echo "     ROS_MASTER=http://bar3:11311"
-    echo "     ROS_HOSTNAME=hostname"
+    echo "     ROS_HOSTNAME=$(hostname)"
     echo " ros_setup -v 3"
     echo "     ROS_MASTER=http://10.210.232.103:11311"
-    echo "     ROS_HOSTNAME=hostname -I"
+    echo "     ROS_HOSTNAME=$(hostname -I)"
     echo " ros_setup -a 3"
     echo "     ROS_MASTER=http://172.210.220.103:11311"
-    echo "     ROS_HOSTNAME=hostname -I"
+    echo "     ROS_HOSTNAME=$(hostname -I)"
     echo " ros_setup 10.10.39.209"
     echo "     ROS_MASTER=http://10.10.39.209:11311"
-    echo "     ROS_HOSTNAME=hostname -I"
+    echo "     ROS_HOSTNAME=$(hostname -I)"
+    echo " "
     return 1
 }
 
 function ros_setup() {
     vpn=0
     avpn=0
-    while getopts ":vah" opt "$@"; do
+    payload=0
+    while getopts ":vahp" opt "$@"; do
       case $opt in
         v)
             vpn=1
@@ -50,6 +53,10 @@ function ros_setup() {
           ;;
         a)
             avpn=1
+            shift $((OPTIND-1))
+          ;;
+        p)
+            payload=1
             shift $((OPTIND-1))
           ;;
         \?)
@@ -79,7 +86,8 @@ function ros_setup() {
         elif [ $avpn -eq 1 ] ; then
             bnum=172.21.220.$((100+$bnum))
             hname=$(hostname -I)
-        else bnum=bar${bnum}
+        else ipnum=${bnum}
+             bnum=bar${bnum}
              hname=$(hostname)
         fi
     fi
@@ -89,10 +97,8 @@ function ros_setup() {
     export ROS_HOSTNAME=$hname
     echo "ROS_HOSTNAME=$ROS_HOSTNAME"
 
-    echo "Do you want to set the route to the payload?"
-    read response
-    if [[ $response == [yY] ]] ; then
-        echo sudo route add -net 10.110.$1.0/24 gw 10.210.232.$((100+$1))
-        sudo route add -net 10.110.$1.0/24 gw 10.210.232.$((100+$1))
+    if [ $payload -eq 1 ] ; then
+        echo sudo route add -net 10.110.$ipnum.0/24 gw 10.210.232.$((100+$ipnum))
+        sudo route add -net 10.110.$ipnum.0/24 gw 10.210.232.$((100+$ipnum))
     fi
 }
