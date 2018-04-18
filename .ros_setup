@@ -80,12 +80,17 @@ function ros_setup() {
         bnum="${@: -1}"
         hname=$(hostname -I)
     elif [[ ${bnum} =~ ^[0-9]+$ ]]; then
+        hostI=$(hostname -I)
         if [ $vpn -eq 1 ] ; then
             bnum=10.210.232.$((100+$bnum))
-            hname=$(hostname -I)
+            for addr in ${(z)hostI}; do
+                [[ $addr =~ "10.220" ]] && hname=$addr
+            done
         elif [ $avpn -eq 1 ] ; then
             bnum=172.21.220.$((100+$bnum))
-            hname=$(hostname -I)
+            for addr in ${(z)hostI}; do
+                [[ $addr =~ "172.21" ]] && hname=$addr
+            done
         else ipnum=${bnum}
              bnum=bar${bnum}
              hname=$(hostname)
