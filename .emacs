@@ -26,7 +26,8 @@
     flycheck
     magit
     py-autopep8
-    powerline))
+    powerline
+    zoom-window))
 
 (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
@@ -100,6 +101,7 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x p") 'py-autopep8-buffer)
 (global-set-key (kbd "C-x c") 'copy-line)
+(global-set-key (kbd "C-M-z") 'zoom-window-zoom)
 
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
