@@ -46,6 +46,7 @@
   (add-hook 'c-mode-hook 'flycheck-mode))
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
+(setq elpy-rpc-ignored-buffer-size 204800)
  ;;(elpy-use-ipython)
 
 (load-theme 'wombat)
