@@ -14,6 +14,9 @@
  '(column-number-mode t)
  '(ido-ignore-buffers (quote ("\\`*" "\\` ")))
  '(indent-tabs-mode nil)
+ '(irony-extra-cmake-args
+   (quote
+    ("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/")))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
