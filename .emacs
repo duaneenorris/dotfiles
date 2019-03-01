@@ -22,12 +22,18 @@
  ;; If there is more than one, they won't work right.
  '(cursor ((t (:background "orange red")))))
 (defvar myPackages
-  '(elpy
+  '(req-package
+    elpy
     flycheck
     magit
     py-autopep8
     powerline
-    zoom-window))
+    zoom-window
+    irony
+    company
+    company-irony
+    flycheck-irony
+    ))
 
 (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
@@ -38,12 +44,90 @@
       (package-install package)))
       myPackages)
 
+(require 'req-package)
+(req-package company
+  :config
+  (progn
+    (add-hook 'after-init-hook 'global-company-mode)
+    (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+    (setq company-idle-delay 0)))
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+;; (add-hook 'objc-mode-hook 'irony-mode)
+
+;; Check buffer on save, new line and immediately after anbling flycheck-mode
+(setq flycheck-check-syntax-automatically '(mode-enabled save new-line idle-change)) ;; new-line also possible
+(setq flycheck-idle-change-delay 3)
+;; Add include paths
+(add-hook 'c++-mode-hook
+          (lambda () (setq flycheck-clang-include-path
+                           (list (expand-file-name "/opt/ros/kinetic/include/")))))
+;; (defun my-irony-mode-hook ()
+;;   (define-key irony-mode-map [remap completion-at-point]
+;;     'irony-completion-at-point-async)
+;;   (define-key irony-mode-map [remap complete-symbol]
+;;     'irony-completion-at-point-async))
+
+;;(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+;; (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;; Use comapny-mode with Irony
+;;(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+;;(setq company-backends (delete 'company-semantic company-backends))
+;; Enable tab-completion with no delay
+;;(define-key c-mode-base-map (kbd "<S-SPC>") 'company-complete)
+;; Add support for completing C/C++ headers
+;;(require 'company-irony-c-headers)
+;;(eval-after-load 'company
+;;  '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
+;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/5.4.0/")
+;; Set cppcheck standard to C++11
+(setq irony-additional-clang-options '("-std=c++11"))
+
+(req-package irony
+  :config
+  (progn
+    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+
+    ;; Use compilation database first, clang_complete as fallback.
+    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                    irony-cdb-clang-complete))
+
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+    )
+)
+
+;; (req-package flycheck
+;;   :config
+;;   (progn
+;;     (global-flycheck-mode)))
+
+;; This is the line to add to the irony-install-server cmake so it will compile
+;;-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/
+;; Be sure you have installed clang llvm
+;; sudo apt install clang llvm llvm-3.8-dev
+
+(req-package company-irony
+    :require company irony
+    :config
+    (progn
+      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+
+(req-package flycheck-irony
+    :require flycheck irony
+    :config
+    (progn
+      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+
 (elpy-enable)
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode)
   (add-hook 'c++-mode-hook 'flycheck-mode)
-  (add-hook 'c-mode-hook 'flycheck-mode))
+  (add-hook 'c-mode-hook 'flycheck-mode)
+  )
+(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 (setq elpy-rpc-ignored-buffer-size 204800)
