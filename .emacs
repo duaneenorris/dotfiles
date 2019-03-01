@@ -2,6 +2,8 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/")
              '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -9,10 +11,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/dotfiles/")
 (add-to-list 'load-path "~/src/snap_dev_tools/den-dotfiles/")
-
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'c-mode-common-hook 'google-make-newline-indent)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -46,6 +44,7 @@
     company-irony-c-headers
     flycheck-irony
     cc-mode
+    clang-format
     ))
 
 (setq tramp-ssh-controlmaster-options
@@ -65,8 +64,18 @@
      (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
      (setq company-idle-delay 0)))
 
+(defun my-c++-mode-hook ()
+  (local-set-key (kbd "C-x p") 'clang-format-buffer)
+  (local-set-key (kbd "M-p") 'clang-format-region))
+
+(require 'clang-format)
+(require 'google-c-style)
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
 
 ;; Check buffer on save, new line and immediately after anbling flycheck-mode
 (setq flycheck-check-syntax-automatically '(mode-enabled save new-line idle-change)) ;; new-line also possible
