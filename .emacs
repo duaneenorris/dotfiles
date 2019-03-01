@@ -6,6 +6,14 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'load-path "~/dotfiles/")
+(add-to-list 'load-path "~/src/snap_dev_tools/den-dotfiles/")
+
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
