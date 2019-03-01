@@ -62,7 +62,7 @@
 
 ;; Check buffer on save, new line and immediately after anbling flycheck-mode
 (setq flycheck-check-syntax-automatically '(mode-enabled save new-line idle-change)) ;; new-line also possible
-(setq flycheck-idle-change-delay 3)
+(setq flycheck-idle-change-delay 1)
 ;; Add include paths
 (add-hook 'c++-mode-hook
           (lambda () (setq flycheck-clang-include-path
