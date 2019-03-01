@@ -32,7 +32,9 @@
     irony
     company
     company-irony
+    company-irony-c-headers
     flycheck-irony
+    cc-mode
     ))
 
 (setq tramp-ssh-controlmaster-options
@@ -46,15 +48,14 @@
 
 (require 'req-package)
 (req-package company
-  :config
-  (progn
-    (add-hook 'after-init-hook 'global-company-mode)
-    (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-    (setq company-idle-delay 0)))
+   :config
+   (progn
+     (add-hook 'after-init-hook 'global-company-mode)
+     (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+     (setq company-idle-delay 0)))
 
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
-;; (add-hook 'objc-mode-hook 'irony-mode)
 
 ;; Check buffer on save, new line and immediately after anbling flycheck-mode
 (setq flycheck-check-syntax-automatically '(mode-enabled save new-line idle-change)) ;; new-line also possible
@@ -63,24 +64,21 @@
 (add-hook 'c++-mode-hook
           (lambda () (setq flycheck-clang-include-path
                            (list (expand-file-name "/opt/ros/kinetic/include/")))))
-;; (defun my-irony-mode-hook ()
-;;   (define-key irony-mode-map [remap completion-at-point]
-;;     'irony-completion-at-point-async)
-;;   (define-key irony-mode-map [remap complete-symbol]
-;;     'irony-completion-at-point-async))
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
 
-;;(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-;; (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+
 ;; Use comapny-mode with Irony
-;;(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-;;(setq company-backends (delete 'company-semantic company-backends))
-;; Enable tab-completion with no delay
-;;(define-key c-mode-base-map (kbd "<S-SPC>") 'company-complete)
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
 ;; Add support for completing C/C++ headers
-;;(require 'company-irony-c-headers)
-;;(eval-after-load 'company
-;;  '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
-;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/5.4.0/")
+(require 'company-irony-c-headers)
+(eval-after-load 'company '(add-to-list 'company-backends 'company-irony))
+
 ;; Set cppcheck standard to C++11
 (setq irony-additional-clang-options '("-std=c++11"))
 
@@ -96,11 +94,6 @@
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     )
 )
-
-;; (req-package flycheck
-;;   :config
-;;   (progn
-;;     (global-flycheck-mode)))
 
 ;; This is the line to add to the irony-install-server cmake so it will compile
 ;;-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/
@@ -213,21 +206,6 @@
         desktop-load-locked-desktop nil
         desktop-auto-save-timeout   120)
   (desktop-save-mode 1))
-;; (setq backup-directory-alist
-;;           `((".*" . ,temporary-file-directory)))
-;; (setq auto-save-file-name-transforms
-;;           `((".*" ,temporary-file-directory t)))
-
-;; ;; Keep them for a week
-;; (message "Deleting old backup files...")
-;; (let ((week (* 60 60 24 7))
-;;       (current (float-time (current-time))))
-;;   (dolist (file (directory-files temporary-file-directory t))
-;;     (when (and (backup-file-name-p file)
-;;                (> (- current (float-time (fifth (file-attributes file))))
-;;                   week))
-;;       (message "%s" file)
-;;       (delete-file file))))
 
 (require 'powerline)
 (powerline-center-theme)
