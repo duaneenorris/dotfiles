@@ -238,3 +238,4 @@
                     :background "firebrick4"
                     :box nil)
 (setq confirm-kill-emacs 'y-or-n-p)
+(global-undo-tree-mode)
