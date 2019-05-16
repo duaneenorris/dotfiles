@@ -13,4 +13,4 @@ tmux send-keys -t duane:1.1 " sudo emacs -nw" C-m
 tmux resize-pane -Z -t duane:1.0
 tmux new-window -n "ipython" -t duane /usr/bin/ipython
 tmux split-window -v -t duane:0.1 -p90
-tmux send-keys -t duane:0.1 "rostopic echo /Control/status | grep \"\(feedback\|status\):\"" C-m
+tmux send-keys -t duane:0.1 "rostopic echo /Control/status | grep \"\(feedback\|status\|substatus\|operating_mode\):\"" C-m
