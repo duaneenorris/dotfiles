@@ -45,6 +45,7 @@
     flycheck-irony
     cc-mode
     clang-format
+    undo-tree
     ))
 
 (setq tramp-ssh-controlmaster-options
@@ -164,6 +165,25 @@
 
 (setq c-default-style "ellemtel"
       c-basic-offset 4)
+(defun ROS-c-mode-hook()
+  (setq c-basic-offset 2)
+  (setq indent-tabs-mode nil)
+  (c-set-offset 'substatement-open 0)
+  (c-set-offset 'innamespace 0)
+  (c-set-offset 'case-label '+)
+  (c-set-offset 'brace-list-open 0)
+  (c-set-offset 'brace-list-intro '+)
+  (c-set-offset 'brace-list-entry 0)
+  (c-set-offset 'member-init-intro 0)
+  (c-set-offset 'statement-case-open 0)
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-cont-nonempty '+)
+  (c-set-offset 'arglist-close '+)
+  (c-set-offset 'template-args-cont '+))
+(add-hook 'c-mode-common-hook 'ROS-c-mode-hook)
+
+;;; In order to get namespace indentation correct, .h files must be opened in C++ mode
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -239,3 +259,4 @@
                     :box nil)
 (setq confirm-kill-emacs 'y-or-n-p)
 (global-undo-tree-mode)
+;;(smooth-scrolling-mode 1))
