@@ -23,6 +23,9 @@
  '(irony-extra-cmake-args
    (quote
     ("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/")))
+ '(package-selected-packages
+   (quote
+    (salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony elpy el-get company-irony-c-headers company-irony clang-format)))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -48,6 +51,9 @@
     undo-tree
     salt-mode
     ))
+
+;; Use this line to update packages without checking signatures
+;;(setq package-check-signature nil)
 
 (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
@@ -134,6 +140,7 @@
     (progn
       (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
 
+;;(setq elpy-rpc-backend "jedi")
 (elpy-enable)
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
