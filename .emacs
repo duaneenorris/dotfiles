@@ -46,6 +46,7 @@
     cc-mode
     clang-format
     undo-tree
+    salt-mode
     ))
 
 (setq tramp-ssh-controlmaster-options
@@ -226,6 +227,9 @@
 ;; setup files ending in “.launch” to open in xml-mode
 
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
+
+(add-to-list 'auto-mode-alist '("\\.sls\\'" . salt-mode))
+(add-to-list 'auto-mode-alist '("\\.j2\\'" . salt-mode))
 
 ;; (require 'py-autopep8)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
