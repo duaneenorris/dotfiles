@@ -56,6 +56,7 @@
     clang-format
     undo-tree
     salt-mode
+    dumb-jump
     ))
 
 ;; Use this line to update packages without checking signatures
@@ -310,6 +311,7 @@
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
 (global-undo-tree-mode)
+(dumb-jump-mode)
 ;;(smooth-scrolling-mode 1))
 
 ;; Setup diminish
