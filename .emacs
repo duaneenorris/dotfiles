@@ -119,6 +119,7 @@
     (beginning-of-line (or (and arg (1+ arg)) 2))
     (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
 
+;; source: https://github.com/MatthewZMD/.emacs.d
 (defun edit-this-with-sudo ()
   "Either open the file currently opened or selected in dired with `sudo' privilege."
   (interactive)
@@ -130,6 +131,21 @@
       (dolist (file (dired-get-marked-files))
         (find-file (concat "/sudo:root@" (system-name) ":" file))))))(add-hook 'irony-mode-hook 'my-irony-mode-hook)
 
+;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+    (filename (buffer-file-name)))
+    (if (not filename)
+    (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+      (message "A buffer named '%s' already exists!" new-name)
+    (progn
+      (rename-file filename new-name 1)
+      (rename-buffer new-name)
+      (set-visited-file-name new-name)
+      (set-buffer-modified-p nil))))))
 
 ;; C++ mode setup - Irony, Company
 
@@ -279,6 +295,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Key bindings
+(global-set-key (kbd "C-z") nil)
 (global-set-key (kbd "C-x <up>") 'windmove-up)
 (global-set-key (kbd "C-x <down>") 'windmove-down)
 (global-set-key (kbd "C-x <left>") 'windmove-left)
