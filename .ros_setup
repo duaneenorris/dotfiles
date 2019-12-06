@@ -103,9 +103,9 @@ function ros_setup() {
     echo "ROS_HOSTNAME=$ROS_HOSTNAME"
 
     if [ $payload -eq 1 ] ; then
-        echo sudo route add -net 10.110.1.0/24 gw 10.210.232.$((100+$ipnum))
-        sudo route add -net 10.110.1.0/24 gw 10.210.232.$((100+$ipnum))
-        echo sudo route add -net 10.110.$ipnum.0/24 gw 10.210.232.$((100+$ipnum))
-        sudo route add -net 10.110.$ipnum.0/24 gw 10.210.232.$((100+$ipnum))
+        echo sudo route add -net 10.110.1.0/24 gw $bnum
+        sudo route add -net 10.110.1.0/24 gw $bnum
+        echo sudo route add -net 10.110.$ipnum.0/24 gw $bnum
+        sudo route add -net 10.110.$ipnum.0/24 gw $bnum
     fi
 }
