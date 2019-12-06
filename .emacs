@@ -250,7 +250,7 @@
   (add-hook 'c++-mode-hook 'flycheck-mode)
   (add-hook 'c-mode-hook 'flycheck-mode)
   )
-(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 (setq elpy-rpc-ignored-buffer-size 204800)
