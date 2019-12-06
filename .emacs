@@ -98,6 +98,14 @@
   (define-key irony-mode-map [remap complete-symbol]
     'irony-completion-at-point-async))
 
+(defun magit-submodule-update-recursive ()
+  (interactive)
+  (magit-run-git-async "submodule" "update" "--init" "--recursive"))
+
+;; Add magit submodule Update all
+(eval-after-load "magit" '(transient-append-suffix 'magit-submodule "f"
+  '("U" "Update all (recursively)" magit-submodule-update-recursive)))
+
 ;; setup copy line
   (defun copy-line (arg)
     "Copy lines (as many as prefix argument) in the kill ring.
@@ -243,7 +251,6 @@
   (add-hook 'c-mode-hook 'flycheck-mode)
   )
 (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
-
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 (setq elpy-rpc-ignored-buffer-size 204800)
