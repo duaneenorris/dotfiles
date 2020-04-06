@@ -60,12 +60,16 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+DIRSTACKSIZE=8
+setopt autopushd pushdminus pushdsilent pushdtohome
+
 if [ -f ~/.zsh_aliases ]; then
     . ~/.zsh_aliases
 fi
 
-DIRSTACKSIZE=8
-setopt autopushd pushdminus pushdsilent pushdtohome
+if [ -f ~/.zshenv ]; then
+   . ~/.zshenv
+fi
 
 if [ -f ~/.zsh_append ]; then
     . ~/.zsh_append
