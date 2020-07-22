@@ -314,6 +314,7 @@
 (global-set-key (kbd "C-x p") 'py-autopep8-buffer)
 (global-set-key (kbd "C-x c") 'copy-line)
 (global-set-key (kbd "C-M-z") 'zoom-window-zoom)
+(global-set-key (kbd "C-x #") 'comment-region)
 
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
