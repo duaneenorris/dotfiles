@@ -243,6 +243,8 @@
 
 ;; Python setup - elpy
 
+;; If elpy starts failing on startup, uninstall and re-install
+
 (elpy-enable)
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
