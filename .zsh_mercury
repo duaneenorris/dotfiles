@@ -3,4 +3,4 @@ source /opt/ros/latest/setup.zsh
 source ~/ros/src/bar_truck/catkin_ws/devel/setup.zsh
 # source ~/bar-develop.zsh
 source ~/dotfiles/.ros_setup
-export SECRET_PATH=/home/dnorris
+export SECRET_PATH=/home/dnorris/.ssh
