@@ -140,6 +140,19 @@
       (dolist (file (dired-get-marked-files))
         (find-file (concat "/sudo:root@" (system-name) ":" file))))))(add-hook 'irony-mode-hook 'my-irony-mode-hook)
 
+;; dired setup
+(require 'dired-x)
+(require 'dired)
+;; allow dired to delete or copy dir
+(setq dired-recursive-copies (quote always)) ; “always” means no asking
+(setq dired-recursive-deletes (quote top)) ; “top” means ask once
+;; Turn on Target Split window
+(setq dired-dwim-target t)
+;; Use the same buffer for viewing.  ENTER and ^
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+(define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
+(put 'dired-find-alternate-file 'disabled nil)
+
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
