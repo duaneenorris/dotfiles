@@ -57,6 +57,9 @@
     undo-tree
     salt-mode
     dumb-jump
+    dired-subtree
+    dired-ranger
+    dired-narrow
     ))
 
 ;; Use this line to update packages without checking signatures
@@ -152,6 +155,23 @@
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 (put 'dired-find-alternate-file 'disabled nil)
+(use-package dired-subtree
+  :config
+  (bind-keys :map dired-mode-map
+             ("i" . dired-subtree-insert)
+             (";" . dired-subtree-remove)))
+(use-package dired-ranger
+  :ensure t
+  :bind (:map dired-mode-map
+              ("W" . dired-ranger-copy)
+              ("X" . dired-ranger-move)
+              ("Y" . dired-ranger-paste)))
+
+;;narrow dired to match filter
+(use-package dired-narrow
+  :ensure t
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -316,6 +336,8 @@
 (setq require-final-newline t)
 (setq column-number-mode t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(setq set-mark-command-repeat-pop t)
+(setq mark-ring-max 5)
 
 ;; Key bindings
 (global-set-key (kbd "C-z") nil)
