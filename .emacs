@@ -21,14 +21,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(ido-ignore-buffers (quote ("\\`*" "\\` ")))
+ '(ido-ignore-buffers '("\\`*" "\\` "))
  '(indent-tabs-mode nil)
  '(irony-extra-cmake-args
-   (quote
-    ("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/")))
+   '("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/"))
  '(package-selected-packages
-   (quote
-    (salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony elpy el-get company-irony-c-headers company-irony clang-format)))
+   '(salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony elpy el-get company-irony-c-headers company-irony clang-format))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -81,6 +79,8 @@
 (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 (require 'tramp)
+
+(load-theme 'wombat)
 
 (require 'powerline)
 (powerline-center-theme)
@@ -325,7 +325,6 @@
 
 ;; General config stuff
 (setq confirm-kill-emacs 'y-or-n-p)
-(load-theme 'wombat)
 (delete-selection-mode t)
 (transient-mark-mode t)
 (setq x-select-enable-clipboard t)
