@@ -5,9 +5,20 @@
 # prompt adam1
 # ANSI color codes
 
-if [ -n "$SSH_CLIENT" ]; then sshprompt='%F{yellow}(remote)%f'
+extras=''
+if [ -n "$SSH_CLIENT" ]; then extras+='%F{yellow}(remote)'
 fi
-export PROMPT="%B%F{red}%n@%m%f$sshprompt:%~ %# %b"
+
+# ptag variable. User can set this to "tag" this shell
+ptagcolor="%F{yellow}"
+if [[ -n $ptag ]]; then
+    extras+=" ${ptagcolor}${ptag}"
+fi
+
+if [[ -n $ptag ]]; then
+    extras+=' '
+fi
+export PROMPT="%B%F{red}%n@%m%f$extras%f:%~ %# %b"
 export RPROMPT='%F{red}%D{%H:%M %Y-%m-%d}%f'
 
 
