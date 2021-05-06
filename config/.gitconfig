@@ -1,0 +1,88 @@
+# Because I sometimes use a different email address on different machines,
+# read the [user] and [sendemail] sections from a separate file:
+[include]
+	path = ~/.gituser
+
+[color]
+	diff = true
+	status = auto
+[alias]
+	ba = branch -a
+	bl = branch -l
+
+	dns = diff --name-status
+
+	# Log shortcuts
+	lol  = log --decorate --pretty=oneline --abbrev-commit
+	lol1 = log --decorate --pretty=oneline --abbrev-commit -n 10
+	lol2 = log --decorate --pretty=oneline --abbrev-commit -n 20
+	lol3 = log --decorate --pretty=oneline --abbrev-commit -n 30
+	lol4 = log --decorate --pretty=oneline --abbrev-commit -n 40
+
+	loll  = log --graph --decorate --pretty=oneline --abbrev-commit
+	loll1 = log --graph --decorate --pretty=oneline --abbrev-commit -n 10
+	loll2 = log --graph --decorate --pretty=oneline --abbrev-commit -n 20
+	loll3 = log --graph --decorate --pretty=oneline --abbrev-commit -n 30
+	loll4 = log --graph --decorate --pretty=oneline --abbrev-commit -n 40
+
+	logns = log --name-status --decorate --abbrev-commit
+	lg = log --name-status --decorate --abbrev-commit
+
+        # "Linear Log" for use in making integration requests. Ignores merge
+        # commits, but shows the commits from both sides of the merges:
+        loglin = log --max-parents=1 --pretty=format:'%h %an, %ar : %s'
+
+	local = log HEAD --not --remotes
+
+	# Quick shortcuts
+	co = checkout
+
+	rb  = rebase
+	rbi = rebase -i
+	rbc = rebase --continue
+	rba = rebase --abort
+
+	ch  = cherry-pick
+	chc = cherry-pick --continue
+	cha = cherry-pick --abort
+
+	# "Remote add force", for when I want to change the URL for an
+	# existing remote.
+	# Note Multiple shell commands like this do not require quotes if
+	# separated by &&, but I need the add to happen even if the remove
+	# fails, yet the ; confuses git without quotes (even when escaped)
+	raf = "!git remote remove $1 ; git remote add"
+	rv  = remote -v
+	ra  = remote add
+
+	mktags = !git ls-files | egrep '[.](c|h)$' | etags -
+
+	# git grep that recurses submodules
+	sgrep = "!f() { git grep \"$1\"; git submodule foreach \"git grep '$1'; true\" | grep -B 1 \"$1\"; }; f"
+	# FIXME: Trying to print the submodule name on each line, but the quoting is just too hard!
+	#sgrep2 = "!f() { git grep \"$1\"; git submodule foreach 'git grep SRCREV_m $foo | awk -v name=$name '\''{ print name, ":",$0; }'\''; echo '$path' ----------- ; true' }; f"
+
+	sui = "submodule update --init"
+
+	cbb = "!git clone -o git ssh://git@git/build-bundle.git"
+[gitmls]
+	aliases = 2
+[log]
+	date = local
+[gui]
+	fontui = -family FreeSans -size 10 -weight bold -slant roman -underline 0 -overstrike 0
+	fontdiff = -family FreeMono -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+[rerere]
+	enable = 1
+	enabled = 1
+[merge]
+	too = meld
+	tool = meld
+	conflictstyle = diff3
+[http]
+	proxy =
+[push]
+	default = tracking
+
+[mergetool]
+	keepBackup = false

@@ -1,0 +1,31 @@
+#!/bin/bash
+# Copy buffer #N (given as sole command line arg) to
+# X selection and clipboard. If this argument is - , will read from stdin
+# rather than a tmux buffer. Designed to be run from within tmux
+# via a key binding.
+# This integrates with my Xpra set-up - if $XPRA_DISPLAY and $XPRA_XAUTHAURITY
+# are set in tmux's environment, connect to that server. If not, connect to
+# the one in $DISPLAY.
+
+if [[ -n "$1" ]]; then
+    bufarg="-b $1"
+else
+    bufarg=''
+fi
+
+# Get $DISPLAY and $XAUTHORITY from tmux's environment, since tmux does not
+# preserve these within a run-shell context.
+eval $(~/.tmux/tmux-x-display)
+
+# The stdin of this function will be copied to both the clipboard and
+# primary selection of the X server specified by $DISPLAY environment.
+stdin_to_clipboard() {
+    xclip -i -sel clipboard -filter |
+    xclip -i -sel primary >/dev/null 2>/dev/null
+}
+
+if [[ "$1" == '-' ]]; then
+    stdin_to_clipboard  # Read from script's stdin.
+else
+    tmux save-buffer $bufarg - | stdin_to_clipboard
+fi

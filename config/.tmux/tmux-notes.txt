@@ -1,0 +1,105 @@
+Tmux Notes
+
+Stuff to memorize:
+C-a w  Select window interactively, and switch to it
+C-a M  All mouse functions ON
+C-a m  All mouse functions OFF
+C-a =  Choose buffer, paste immediately
+C-a C  (shift-c) Choose-buffer, copy to X sel & clip
+C-a +  Choose buffer, write it to /tmp/tmux-exchange
+C-a !  break-pane
+C-a @  join-pane interactively
+C-a >  Choose buffer, write it to /tmp/tmux-exchange
+C-a <  Paste contents of /tmp/tmux-exchange
+C-a M-[0-9]  Select window 10-19
+
+
+
+
+Desired Functions:
+NOTE: M-  is Alt+
+
+Mine   |Default|Screen | What
+^a     |       |a(?)   | send-keys ^a  ; To send command to nested tmux or screen
+l,-n M-PgDown|n  |n," "  | (vim C-PgDown) Switch to Next window
+h,-n M-PgUp |p   |p,<BS> | (vim C-PgUp)   Switch to Prev window
+a      |l      |^a     | Toggle to last-focused window
+def    |0-9    |0-9    | Jump focus to specific window (so above toggle is useful!)
+w      |w      |"      | List windows & interactively pick one to switch to
+M-PgUp |<none> |<none> | Move current window Left
+M-PgDn |<none> |<none> | Move current window Reft
+c      |c      |c,^c   | Create a new window
+A      |,      |A      | Rename current window
+
+S      |$      |<none> | Rename current session
+^k     |(      |       | Switch to previous session (via tmux-buffer script)
+^j     |)      |       | Switch to next session (via tmux-buffer script)
+       |       |       |
+
+s      |"      | ???   | (vim ^W s) Create horizontal split
+v      |%      | |     | (vim ^W v) Create vertical split
+h, -n M-Left, Left |Left   |       | Move focus Up pane (vim: hjkl, Ctrl+hjkl, Left/Down/Up/Right)
+j, -n M-Down, Down |Down   |       |     Down
+k, -n M-Up,   Up   |Up     |       |     Up
+l, -n M-Right,Right|Right  |       |     Right
+def    |C-Left |       | (vim ^W <) Resize pane Left
+def    |C-Down |       | (vim ^W -)    Down
+def    |C-Up   |       | (vim ^W +)    Up
+def    |C-Right|       | (vim ^W >)    Right
+{      |{      |<none> | swap-pane -U - Swap current pane with previous one
+}      |}      |<none> | swap-pane -D - Swap current pane with next one
+
+       |       |       | When ssh'd, put remote host name in status line?
+       |       |       |     Although, maybe not. If remote is running tmux, it will have a status line of its own.
+       |       |       | Turn on/off logging  (see pipe-pane command)
+       |       |       | Use clipboard buffers effectively, including with external programs in the GUI
+]      |]      |       | paste-buffer
+def    |=      |       | choose-buffer
+^Z     |^Z     |       | Suspend client (SIGSTOP)
+def    |q      |       | display-panes   ; Show number in each pane briefly
+def    |~      |       | Show messages
+D      |D      |??     | choose-client, and detach selected one
+
+To Do:
+ * x ^a @  Interactive joine-pane
+   * x http://superuser.com/questions/470130/tmux-prompt-to-select-window-for-join-pane-while-still-seeing-window-numbers-an
+ * choose-buffer
+   * x ^a C list buffers, select one to copy to X clip board
+     * and to default buffer, so can paste with ]
+       No. Can't find a way to push the buffer stack other than copy mode, boo!
+   * x ^a =  list buffers, select one to paste immediately (This is a default binding, heh)
+   * x ^a >  list buffers, select one to save to file
+     * (prompt for filename) - No. Since all commands of a key binding are run in
+       parallel, I couldn't make it first select a buffer, then prompt for filename :(
+   * x ^a <  Load buffer #0 with contents of /tmp/tmux-exchange, and paste it immediately
+ * environment
+   * x Propagate DISPLAY variable
+   * x Get ssh agent working on remote session?
+   * x tmuxenv: zsh function to manually reload env
+   * zsh auto-reload periodic?
+ * x Improve status window notifications/color
+   * x change active from red to bright white
+   * x Make shell error prompt turn it red?
+   * x Make normal shell prompt and/or inactivity do something, as clue command is done (turn yellow)
+   * x Clear the above two when select the window
+   * Status bar tips (?): http://stackoverflow.com/questions/9628435/tmux-status-bar-configuration
+ * What is terminal-overrides option?
+ * x What is prefix2? Can I use it to easily address windows > 9?
+   * x A: Sadly, No. It's just an alias for prefix, so can't behave differently :(
+ * x Why does X clipboard not work across ssh when DISPLAY is right?
+   * x Used eval to set DISPLAY within the run-shell.
+ * x ^a m, ^a M Quick mouse-mode toggle (not needed?): http://tangledhelix.com/blog/2012/07/16/tmux-and-mouse-mode/
+ * vim + tmux integration: http://thedrearlight.com/blog/tmux-vim.html
+ * vim: folding via grep
+ * vim: Get rid of ^a.  Maybe make it equiv to ^w, for pane switching similar to tmux?
+ * x vim: Get mouse to work within terminal
+   * x In tmux
+   * x Through ssh?
+
+
+
+Todo make macro for Nested sessions:
+• Enter pass-through mode:
+∘ un-binds all "non-escaped" bindings
+∘ Changes the escape to ^e
+∘ Adds a "PASS" tag to the status line (maybe left side?)

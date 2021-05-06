@@ -1,3 +1,68 @@
+# LS aliases
+alias ls='ls --color=auto -Fs'
+alias ll='ls --color=auto -lF'
+alias la='ls --color=auto -aF'
+alias lla='ls --color=auto -latrF'
+alias lls='ls --color=auto -ltrF'
+
+alias upp='up 2'
+alias uppp='up 3'
+alias upppp='up 4'
+alias uppppp='up 5'
+alias upppppp='up 6'
+
+# GREP_OPTIONS was deprecated. My former setting for this was:
+# export GREP_OPTIONS='--exclude=*.svn* --directories=recurse --color=auto'
+# Note I really hate to drop recursion by default, but -r on the command line
+# did not act like --directories=recurse did in that it added an implied .
+# argument, so it always grepped everything under the current directory, even
+# when you are just piping something into its stdin :(
+# As far as I know, I have no recourse but to lose "recursive by default"
+alias grep='grep --color=auto'
+export GREP_COLOR='1;32'
+
+## alias cd='cd -L' # This interferes with tab completion on the cd command
+alias rm='rm -i'
+alias cp='cp -i'
+alias c=clear
+alias m=less
+alias h=history
+alias hi='history | tail -25'
+alias dh='dirs -v'
+alias j='jobs -l'
+alias eat='cat > /dev/null'
+alias mv="mv -i"
+alias a=alias
+alias u=unalias
+alias mroe=more
+function ga { a | egrep $* }
+compdef _grep ga
+alias sz="source ~/.zshrc"
+alias gitags='git ls-files | ctags -L - --sort=foldcase'
+alias gitagpp='git ls-files | ctags -L - --sort=foldcase --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++'
+alias mktags='find . -name \*.\[ch\] | ctags -L - --sort=foldcase'
+alias mktagpp='find . -name \*.\[ch\]\* | ctags -L - --sort=foldcase --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++'
+alias gba='git branch -a'
+alias gbl='git branch -l'
+alias gr='git rebase'
+alias bb='bitbake'
+
+# A few global aliases of interest
+alias -g NF='$(\ls -a *(.om[1]))'    # newest file
+alias -g ND='$(\ls -a -d *(/om[1]))' # newest directory
+alias -g G='| grep'
+alias -g L='| less'
+alias -g LL="2>&1 | less"
+alias -g NE='2> /dev/null'
+alias -g DN=/dev/null
+
+# Pipe output of command to tmux's "clipboard"
+alias -g CL='| one-line-strip | tmux load-buffer -'
+
+alias psg='ps -Af | grep '
+
+alias sdis='export DISPLAY=$(cat ~/.DISPLAY)'
+
 alias em='emacsclient'
 alias scu='systemctl --user'
 alias scut='systemctl --user start'

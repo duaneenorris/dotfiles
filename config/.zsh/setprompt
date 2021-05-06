@@ -1,0 +1,130 @@
+# Setup dnorris' prompt.
+# We expect that ~/.zsh/gencolors has already been sourced by this shell, so
+# that all the color strings therein are already defined.
+
+setopt PROMPT_SUBST
+
+# Helper function for showing a SUDO flag in prompt when shell has cached sudo
+# access (i.e. temporary password-less sudo)
+_can_i_sudo() {
+    sudo -n true 2>/dev/null
+}
+# Let user disable the SUDO flag in prompt by touching a flag file because it
+# is annoying in "classic mode" of Ubuntu Core because the shell always has
+# password-less sudo access.
+enable_sudo_flag_in_prompt=1
+[[ -e ~/.config/no_sudo_flag_in_prompt ]] && enable_sudo_flag_in_prompt=0
+
+# Options for the gitfast/git-prompt plugin from oh-my-zsh
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUPSTREAM="auto verbose"
+GIT_PS1_DESCRIBE_STYLE="branch"
+GIT_PS1_SHOWCOLORHINTS=1
+
+function denprompt {
+    # Colors: Main one bright makes cmd boundaries easy to find in scrollback
+    local maincolor="%F{red}"
+    local dockercolor="%F{blue}"
+    local ptagcolor="%F{cyan}"
+    local hostcolor="%F{69}"       # A bright blue
+    local bgjobscolor="%F{128}"    # purple
+    local sudocolor="%F{yellow}"
+    local remotecolor="%F{yellow}"
+
+    # Username and hostname
+    PS1="%B${maincolor}%n@%m"
+
+    local extras=""
+    # If in Docker container, print the container name
+    if [[ -n $DOCKER_NAME ]] ; then
+        extras+=" ${dockercolor}$DOCKER_NAME"
+    fi
+
+    # ptag variable. User can set this to "tag" this shell
+    if [[ -n $ptag ]]; then
+        extras+=" ${ptagcolor}${ptag}"
+    fi
+
+    # Count of background jobs and "vim" flag.
+    # If the only BG jobs are vim, don't show count.
+    local jobcnt=${#jobtexts}
+    if [[ ${jobcnt} > 0 ]] ; then
+        extras+=" ${bgjobscolor}J:${#jobtexts}"
+    fi
+
+    # Show a flag if this shell has cached Sudo permission
+    if (( $enable_sudo_flag_in_prompt > 0 )) && _can_i_sudo; then
+        extras+=" ${sudocolor}SUDO"
+    fi
+
+    if [ -n "$SSH_CLIENT" ]; then
+        extras+=" ${remotecolor}remote"
+    fi
+
+    if [[ -n "$extras" ]] ; then
+        extras=" %f[${extras# }%f]"
+    fi
+
+    # Exit status if command exited with Error.
+    extras+="%0(?,, %K{red}%F{white} Exit %? %f%k${maincolor})"
+
+    # Git info, using the gitfast/git-prompt plugin from oh-my-zsh. In
+    # colorizing, it uses %f to "return to the default color (white)".  But the
+    # "default color" of my prompt is not white, so do a replacement. I could
+    # probably change the shell's default color instead, but this would make
+    # command text be that color, which is not what I want.
+    local git_info="$(__git_ps1)"
+    RPROMPT="${git_info} ${maincolor}%D{%H:%M %Y-%m-%d}%f"
+
+    # Current directory and newline
+    PS1+="${extras}%f:%~ %# %b"
+
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd denprompt
+
+# Show Elapsed wall-clock time for any command that takes longer
+# than 1 second. This is like $REPORTTIME except that the threshold is
+# real time rather than user+system CPU time.
+__real_seconds() {
+    echo $(( $(date '+%s + %N') / 1000000000.0 ))
+}
+
+__record_start_time() {
+    # Used in elapsed time calculation in the prompt
+    # However, don't do it if the command to be run is fg, because it makes
+    # little sense to report the time of just one "fg" session in a
+    # longer running command.
+    if ! [[ $2 == fg || $2 == fg\ * ]]; then
+        _start=$(__real_seconds)
+    else
+        unset _start
+    fi
+}
+add-zsh-hook preexec __record_start_time
+
+__show_elapsed() {
+    # Show how long the previous command took if more than 1 second
+    if (($+_start)); then
+        local t=$(( $(__real_seconds)-_start ))
+        unset _start
+        if (($t > 1.0)); then
+            echo >&2 "${hcyan}Elapsed:" \
+                ${${${$(printf "%d:%02d:%05.2f" $((t / 3600)) $((t / 60 % 60)) $((t % 60)))#0:}#00:}#0}"${norm}"
+        fi
+    fi
+}
+add-zsh-hook precmd __show_elapsed
+
+
+# Emit a terminal bell if last command exited with non-zero status. This makes
+# the tmux window label change to "alert" color. Used to do this in the prompt
+# but it would re-asert alert status every time the prompt was redrawn, causing
+# lots of false alerts. Doing it in precmd means it will happen only once.
+__bell_on_error() {
+    [[ $? != 0 ]] && echo -n "\a"
+}
+add-zsh-hook precmd __bell_on_error
+
+alias sp='source ~/.zsh/setprompt'
