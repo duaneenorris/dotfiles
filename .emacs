@@ -286,9 +286,10 @@
   (add-hook 'c-mode-hook 'flycheck-mode)
   )
 
-(setq python-shell-interpreter "ipython"
+(setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "-i --simple-prompt")
 (setq elpy-rpc-ignored-buffer-size 204800)
+(setq elpy-rpc-python-command "python3")
 ;;(elpy-use-ipython)
 ;;(setq elpy-rpc-backend "jedi")
 

@@ -8,6 +8,6 @@ fi
 tmux split-window -h -t duane:0
 tmux rename-window -t duane:0 "term"
 tmux new-window -n "emacs" -t duane /usr/bin/emacs -nw
-tmux new-window -n "ipython" -t duane /usr/bin/ipython
+tmux new-window -n "ipython" -t duane /usr/bin/ipython3
 tmux split-window -v -t duane:0.1 -p90
 tmux send-keys -t duane:0.1 "rostopic echo /Control/status | grep \"\(feedback\|status\|substatus\|operating_mode\|lights\):\"" C-m
