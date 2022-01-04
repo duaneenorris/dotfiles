@@ -143,6 +143,15 @@
       (dolist (file (dired-get-marked-files))
         (find-file (concat "/sudo:root@" (system-name) ":" file))))))(add-hook 'irony-mode-hook 'my-irony-mode-hook)
 
+; source: https://elpy.readthedocs.io/en/latest/customization_tips.html#jumping-to-assignment
+(defun elpy-goto-definition-or-rgrep ()
+  "Go to the definition of the symbol at point, if found. Otherwise, run `elpy-rgrep-symbol'."
+    (interactive)
+    (ring-insert find-tag-marker-ring (point-marker))
+    (condition-case nil (elpy-goto-definition)
+        (error (elpy-rgrep-symbol
+                   (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
+
 ;; dired setup
 (require 'dired-x)
 (require 'dired)
@@ -286,12 +295,14 @@
   (add-hook 'c-mode-hook 'flycheck-mode)
   )
 
+
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "-i --simple-prompt")
 (setq elpy-rpc-ignored-buffer-size 204800)
 (setq elpy-rpc-python-command "python3")
 ;;(elpy-use-ipython)
 ;;(setq elpy-rpc-backend "jedi")
+(define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
