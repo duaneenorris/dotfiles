@@ -302,6 +302,9 @@
 (setq py-autopep8-options '("--max-line-length=99"))
 
 
+;; Turn on HideShow
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+
 ;; Setup major modes based on file types
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . salt-mode))
