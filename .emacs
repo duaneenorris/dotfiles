@@ -103,7 +103,7 @@
 
 (defun magit-submodule-update-recursive ()
   (interactive)
-  (magit-run-git-async "submodule" "update" "--init" "--recursive"))
+  (magit-run-git-async "submodule" "update" "--init" "--recursive" "-j" "32"))
 
 ;; Add magit submodule Update all
 (eval-after-load "magit" '(transient-append-suffix 'magit-submodule "f"
