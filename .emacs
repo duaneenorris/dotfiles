@@ -311,6 +311,7 @@
 ;; (require 'py-autopep8)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=99"))
+(setq flycheck-flake8rc "/home/bar/flake8/.flake8")
 
 
 ;; Turn on HideShow
