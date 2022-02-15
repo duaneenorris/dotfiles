@@ -287,6 +287,9 @@
 
 ;; If elpy starts failing on startup, uninstall and re-install
 
+(require 'find-file-in-project)
+(setq ffip-prefer-ido-mode t)
+
 (elpy-enable)
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
