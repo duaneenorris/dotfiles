@@ -369,6 +369,12 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq set-mark-command-repeat-pop t)
 (setq mark-ring-max 5)
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+
+; Set large file threshold to 100MB
+(setq large-file-warning-threshold 100000000)
+
 
 ;; Key bindings
 (global-set-key (kbd "C-z") nil)
