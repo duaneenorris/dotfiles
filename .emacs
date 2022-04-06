@@ -387,7 +387,7 @@
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
 (global-undo-tree-mode)
-(dumb-jump-mode)
+;;(dumb-jump-mode)
 ;;(smooth-scrolling-mode 1))
 
 ;; Setup diminish
