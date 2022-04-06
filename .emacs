@@ -383,6 +383,12 @@
 (global-set-key (kbd "C-x c") 'copy-line)
 (global-set-key (kbd "C-M-z") 'zoom-window-zoom)
 (global-set-key (kbd "C-x #") 'comment-region)
+;; Setup CTRL-Arrow scrolling to preserve the cursor position, but scroll the window.
+(global-unset-key [C-up])
+(global-set-key [C-up]   '(lambda () "Scroll text down, don't move cursor." (interactive) (scroll-down 1)))
+
+(global-unset-key [C-down])
+(global-set-key [C-down] '(lambda () "Scroll text up in place, don't move cursor." (interactive) (scroll-up 1)))
 
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
