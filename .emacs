@@ -154,7 +154,9 @@
           (kill-buffer (buffer-name))
           (find-file (concat "/sudo:root@" (system-name) ":" buffer-file)))
       (dolist (file (dired-get-marked-files))
-        (find-file (concat "/sudo:root@" (system-name) ":" file))))))(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+        (find-file (concat "/sudo:root@" (system-name) ":" file))))))
+
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
 
 ; source: https://elpy.readthedocs.io/en/latest/customization_tips.html#jumping-to-assignment
 (defun elpy-goto-definition-or-rgrep ()
