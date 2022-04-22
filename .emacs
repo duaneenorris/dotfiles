@@ -27,7 +27,9 @@
    '("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/"))
  '(package-selected-packages
    '(salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony elpy el-get company-irony-c-headers company-irony clang-format))
- '(show-paren-mode t))
+ '(show-paren-mode t)
+ '(undo-tree-auto-save-history t)
+ '(undo-tree-history-directory-alist '(("" . "~/.saves"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
