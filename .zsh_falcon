@@ -1,3 +1,6 @@
 export TERM=screen-256color
 
 source ~/dotfiles/.ros_setup
+
+hash -d ros=~/ros/src
+hash -d truck=~/ros/src/bar_truck

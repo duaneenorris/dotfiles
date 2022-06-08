@@ -75,10 +75,18 @@ function denprompt {
     # probably change the shell's default color instead, but this would make
     # command text be that color, which is not what I want.
     local git_info="$(__git_ps1)"
-    RPROMPT="${git_info} ${maincolor}%D{%H:%M %Y-%m-%d}%f"
+    RPROMPT="${git_info} ${maincolor}%D{%H:%M:%S}%f"
 
-    # Current directory and newline
-    PS1+="${extras}%f:%~ %# %b"
+    # Current directory
+    if [[ -n "$fullpath_prompt" ]] ; then
+      local cur_path='%d'
+    else
+      local pwd_reduced=$(print -rP "%-2~..%2~")
+      local pwd_exp=$(print -rP "%~")
+      local cur_path='%~'
+      [[ ${#pwd_reduced} -lt ${#pwd_exp} ]] && cur_path="%-2~..%2~"
+    fi
+    PS1+="${extras}%f:$cur_path %# %b"
 
 }
 autoload -Uz add-zsh-hook

@@ -5,3 +5,8 @@ export TERM=screen-256color
 # source ~/ros/src/bar_truck/ros/kinetic/devel/setup.zsh
 # source ~/ros/src/snap_dev_tools/config/.zsh/zsh.d/bar-develop.zsh
 source ~/dotfiles/.ros_setup
+
+hash -d ros=/data/ros/src
+hash -d yocto=/data/ros/src/bar_truck_yocto/yocto
+hash -d truck=/data/ros/src/bar_truck
+hash -d ycommon=/data/ros/src/yocto-common
