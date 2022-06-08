@@ -26,7 +26,7 @@
  '(irony-extra-cmake-args
    '("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/"))
  '(package-selected-packages
-   '(salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony elpy el-get company-irony-c-headers company-irony clang-format))
+   '(elpy company dash flycheck git-commit magit-section transient with-editor salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony el-get company-irony-c-headers company-irony clang-format))
  '(show-paren-mode t)
  '(undo-tree-auto-save-history t)
  '(undo-tree-history-directory-alist '(("" . "~/.saves"))))
@@ -331,8 +331,10 @@
 ;; (require 'py-autopep8)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=99"))
-(setq flycheck-flake8rc "/home/bar/flake8/.flake8")
-
+(setq flycheck-flake8rc "/home/duane/dotfiles/flake8")
+(use-package flycheck
+  :config
+  (setq-default flycheck-disabled-checkers '(python-pylint)))
 
 ;; Turn on HideShow
 (add-hook 'prog-mode-hook #'hs-minor-mode)
