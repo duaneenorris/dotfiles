@@ -35,7 +35,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cursor ((t (:background "orange red")))))
+ '(cursor ((t (:background "orange red"))))
+ '(dired-broken-symlink ((t (:background "black" :foreground "red" :weight bold))))
+ '(mode-line ((t (:background "firebrick" :foreground "light gray"))))
+ '(mode-line-inactive ((t (:background "firebrick4" :foreground "black"))))
+ '(powerline-active0 ((t (:inherit mode-line :background "red"))))
+ '(powerline-inactive0 ((t (:inherit mode-line-inactive :background "firebrick")))))
 
 ;; Packages
 
@@ -86,14 +91,14 @@
 
 (require 'powerline)
 (powerline-center-theme)
-(set-face-attribute 'mode-line nil
-                    :foreground "LightGrey"
-                    :background "firebrick"
-                    :box nil)
-(set-face-attribute 'mode-line-inactive nil
-                    :foreground "black"
-                    :background "firebrick4"
-                    :box nil)
+;; (set-face-attribute 'mode-line nil
+;;                     :foreground "LightGrey"
+;;                     :background "firebrick"
+;;                     :box nil)
+;; (set-face-attribute 'mode-line-inactive nil
+;;                     :foreground "black"
+;;                     :background "firebrick4"
+;;                     :box nil)
 
 ;; Setup some ediff stuff
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -344,6 +349,9 @@
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . salt-mode))
 (add-to-list 'auto-mode-alist '("\\.j2\\'" . salt-mode))
 
+;; Bitbake
+(require `bitbake)
+(add-hook 'bitbake-mode-hook (lambda () (setq-local tab-width 4)))
 
 ;; Setup backups and versioning
 (setq
