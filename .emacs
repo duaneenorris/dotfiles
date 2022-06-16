@@ -184,6 +184,7 @@
 (setq dired-dwim-target t)
 ;; Use the same buffer for viewing.  ENTER and ^
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+(define-key dired-mode-map (kbd "L") 'dired-do-relsymlink) ; was dired-do-load
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 (put 'dired-find-alternate-file 'disabled nil)
 (use-package dired-subtree
