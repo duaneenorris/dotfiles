@@ -26,7 +26,7 @@
  '(irony-extra-cmake-args
    '("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/"))
  '(package-selected-packages
-   '(elpy company dash flycheck git-commit magit-section transient with-editor salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony el-get company-irony-c-headers company-irony clang-format))
+   '(jedi elpy company-jedi company dash flycheck git-commit magit-section transient with-editor salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony el-get company-irony-c-headers company-irony clang-format))
  '(show-paren-mode t)
  '(undo-tree-auto-save-history t)
  '(undo-tree-history-directory-alist '(("" . "~/.saves"))))
@@ -65,6 +65,9 @@
     dired-subtree
     dired-ranger
     dired-narrow
+    f
+    s
+    dash
     ))
 
 ;; Use this line to update packages without checking signatures
@@ -74,6 +77,11 @@
     (unless (package-installed-p package)
       (package-install package)))
       myPackages)
+
+;; Load some env vars from a file
+;; setenv-file requires f, s, and dash
+(require 'setenv-file)
+(setenv-file (expand-file-name "~/.emacs.d/emacs-env"))
 
 (require 'req-package)
 (req-package company
@@ -327,7 +335,7 @@
 (setq elpy-rpc-ignored-buffer-size 204800)
 (setq elpy-rpc-python-command "python3")
 ;;(elpy-use-ipython)
-;;(setq elpy-rpc-backend "jedi")
+(setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
 
 (setq ido-enable-flex-matching t)
