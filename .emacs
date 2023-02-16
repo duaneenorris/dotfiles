@@ -349,6 +349,8 @@
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . salt-mode))
 (add-to-list 'auto-mode-alist '("\\.j2\\'" . salt-mode))
+(add-to-list 'auto-mode-alist '("\\.bb\\'" . bitbake-mode))
+(add-to-list 'auto-mode-alist '("\\.bbclass\\'" . bitbake-mode))
 
 ;; Bitbake
 (require `bitbake)
