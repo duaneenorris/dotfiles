@@ -96,6 +96,8 @@
 ;; Setup other programming stuff (Bitbake, major modes, etc)
 (require 'den-programming "den-prog")
 
+(load "den-treemacs")
+
 ;; Setup other stuff
 ;; General configs, Ediff, backups, key bindings, diminish, powerline, etc.
 (require 'den-config "den-general-config")
