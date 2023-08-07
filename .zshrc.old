@@ -18,7 +18,7 @@ fi
 if [[ -n $ptag ]]; then
     extras+=' '
 fi
-export PROMPT="%B%F{red}%n@%m%f$extras%f:%~ %# %b"
+export PROMPT="%B%F{red}%n@%m(THIS IS THE WRONG .zshrc!)%f$extras%f:%~ %# %b"
 export RPROMPT='%F{red}%D{%H:%M %Y-%m-%d}%f'
 
 
