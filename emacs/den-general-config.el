@@ -21,6 +21,8 @@
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 
+(setq show-paren-context-when-offscreen t)
+
 ; Set large file threshold to 100MB
 (setq large-file-warning-threshold 100000000)
 
