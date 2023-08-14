@@ -102,3 +102,6 @@
 ;; Setup other stuff
 ;; General configs, Ediff, backups, key bindings, diminish, powerline, etc.
 (require 'den-config "den-general-config")
+
+(require 'which-key)
+(which-key-mode)
