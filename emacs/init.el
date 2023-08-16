@@ -23,7 +23,6 @@
 
 (defvar myPackages
   '(req-package
-    elpy
     flycheck
     magit
     py-autopep8

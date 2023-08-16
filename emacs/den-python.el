@@ -1,21 +1,21 @@
-;; Python setup - elpy
+;; Python setup
 
-;; If elpy starts failing on startup, uninstall and re-install
+(use-package lsp-jedi
+  :ensure t
+  :hook (python-mode . lsp-mode))
 
-(require 'elpy)
+(setq read-process-output-max (* 3 1024 1024)) ;; 3mb
+(setq gc-cons-threshold 100000000)
+
+(require 'yasnippet)
+(yas-reload-all)
+(add-hook 'python-mode-hook #'yas-minor-mode)
 
 (require 'find-file-in-project)
 (setq ffip-prefer-ido-mode t)
 
-(elpy-enable)
-
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "-i --simple-prompt")
-(setq elpy-rpc-ignored-buffer-size 204800)
-(setq elpy-rpc-python-command "python3")
-;;(elpy-use-ipython)
-(setq elpy-rpc-backend "jedi")
-(define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
 
 ;; (require 'py-autopep8)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)

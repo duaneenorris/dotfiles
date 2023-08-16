@@ -41,71 +41,69 @@ function ros_setup_usage() {
     return 1
 }
 
-function ros_setup() {
-    vpn=0
-    avpn=0
-    payload=0
-    while getopts ":vahp" opt "$@"; do
-      case $opt in
-        v)
-            vpn=1
-            shift $((OPTIND-1))
-          ;;
-        a)
-            avpn=1
-            shift $((OPTIND-1))
-          ;;
-        p)
-            payload=1
-            shift $((OPTIND-1))
-          ;;
-        \?)
-            echo "Invalid option: -$OPTARG" >&2
-            ros_setup_usage
-          ;;
-        h)
-          ros_setup_usage
-          ;;
-      esac
-    done
-
-    if [ -z "$1" ] ; then
+vpn=0
+avpn=0
+payload=0
+while getopts ":vahp" opt "$@"; do
+  case $opt in
+    v)
+        vpn=1
+        shift $((OPTIND-1))
+      ;;
+    a)
+        avpn=1
+        shift $((OPTIND-1))
+      ;;
+    p)
+        payload=1
+        shift $((OPTIND-1))
+      ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
         ros_setup_usage
-        return 1
-    fi
+      ;;
+    h)
+      ros_setup_usage
+      ;;
+  esac
+done
 
+if [ -z "$1" ] ; then
+    ros_setup_usage
+    return 1
+fi
+
+bnum="${@: -1}"
+hname=$(hostname)
+if valid_ip ${@: -1}; then
     bnum="${@: -1}"
-    hname=$(hostname)
-    if valid_ip ${@: -1}; then
-        bnum="${@: -1}"
-        hname=$(hostname -I)
-    elif [[ ${bnum} =~ ^[0-9]+$ ]]; then
-        hostI=$(hostname -I)
-        if [ $vpn -eq 1 ] ; then
-            bnum=10.210.232.$((100+$bnum))
-            for addr in ${(z)hostI}; do
-                [[ $addr =~ "10.220" ]] && hname=$addr
-            done
-        elif [ $avpn -eq 1 ] ; then
-            bnum=172.21.220.$((100+$bnum))
-            for addr in ${(z)hostI}; do
-                [[ $addr =~ "172.21" ]] && hname=$addr
-            done
-        else ipnum=${bnum}
-             bnum=bar${bnum}
-             hname=$(hostname)
-        fi
+    hname=$(hostname -I)
+elif [[ ${bnum} =~ ^[0-9]+$ ]]; then
+    hostI=$(hostname -I)
+    if [ $vpn -eq 1 ] ; then
+        bnum=10.210.232.$((100+$bnum))
+        for addr in ${(z)hostI}; do
+            [[ $addr =~ "10.220" ]] && hname=$addr
+        done
+    elif [ $avpn -eq 1 ] ; then
+        bnum=172.21.220.$((100+$bnum))
+        for addr in ${(z)hostI}; do
+            [[ $addr =~ "172.21" ]] && hname=$addr
+        done
+    else ipnum=${bnum}
+         bnum=bar${bnum}
+         hname=$(hostname)
     fi
+fi
 
-    export ROS_MASTER_URI=http://$bnum:11311
-    echo "ROS_MASTER_URI=$ROS_MASTER_URI"
-    export ROS_HOSTNAME=$hname
-    echo "ROS_HOSTNAME=$ROS_HOSTNAME"
+export ROS_MASTER_URI=http://$bnum:11311
+echo "ROS_MASTER_URI=$ROS_MASTER_URI"
+export ROS_HOSTNAME=$hname
+echo "ROS_HOSTNAME=$ROS_HOSTNAME"
 
-    if [ $payload -eq 1 ] ; then
-        echo sudo route add -net 10.110.1.0/24 gw $bnum
-        sudo route add -net 10.110.1.0/24 gw $bnum
-        echo sudo route add -net 10.110.$ipnum.0/24 gw $bnum
-        sudo route add -net 10.110.$ipnum.0/24 gw $bnum
-    fi
-}
+if [ $payload -eq 1 ] ; then
+    echo sudo route add -net 10.110.1.0/24 gw $bnum
+    sudo route add -net 10.110.1.0/24 gw $bnum
+    echo sudo route add -net 10.110.$ipnum.0/24 gw $bnum
+    sudo route add -net 10.110.$ipnum.0/24 gw $bnum
+fi

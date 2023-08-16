@@ -86,6 +86,9 @@
 ;; Setup diminish
 (require 'diminish)
 (diminish 'undo-tree-mode)
-(diminish 'elpy-mode)
+(diminish 'flycheck-mode)
+(diminish 'company-mode)
+(diminish 'which-key-mode)
+(diminish 'hs-minor-mode)
 
 (provide 'den-config)

@@ -1,5 +1,3 @@
-(require 'elpy)
-
 ;; setup copy line
   (defun copy-line (arg)
     "Copy lines (as many as prefix argument) in the kill ring.
@@ -35,13 +33,13 @@
         (find-file (concat "/sudo:root@" (system-name) ":" file))))))
 
 ; source: https://elpy.readthedocs.io/en/latest/customization_tips.html#jumping-to-assignment
-(defun elpy-goto-definition-or-rgrep ()
-  "Go to the definition of the symbol at point, if found. Otherwise, run `elpy-rgrep-symbol'."
-    (interactive)
-    (ring-insert find-tag-marker-ring (point-marker))
-    (condition-case nil (elpy-goto-definition)
-        (error (elpy-rgrep-symbol
-                   (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
+;; (defun elpy-goto-definition-or-rgrep ()
+;;   "Go to the definition of the symbol at point, if found. Otherwise, run `elpy-rgrep-symbol'."
+;;     (interactive)
+;;     (ring-insert find-tag-marker-ring (point-marker))
+;;     (condition-case nil (elpy-goto-definition)
+;;         (error (elpy-rgrep-symbol
+;;                    (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -59,5 +57,17 @@
       (set-visited-file-name new-name)
       (set-buffer-modified-p nil))))))
 
+;; Add buffer local Flycheck checkers after LSP for different major modes.
+;; https://github.com/flycheck/flycheck/issues/1762
+(defvar-local my-flycheck-local-cache nil)
+(defun my-flycheck-local-checker-get (fn checker property)
+  ;; Only check the buffer local cache for the LSP checker, otherwise we get
+  ;; infinite loops.
+  (if (eq checker 'lsp)
+      (or (alist-get property my-flycheck-local-cache)
+          (funcall fn checker property))
+    (funcall fn checker property)))
+(advice-add 'flycheck-checker-get
+            :around 'my-flycheck-local-checker-get)
 
 (provide 'den-functions)
