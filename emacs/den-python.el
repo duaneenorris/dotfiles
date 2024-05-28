@@ -2,7 +2,8 @@
 
 (use-package lsp-jedi
   :ensure t
-  :hook (python-mode . lsp-mode))
+  :hook (python-mode . lsp-mode)
+  )
 
 (setq read-process-output-max (* 3 1024 1024)) ;; 3mb
 (setq gc-cons-threshold 100000000)
@@ -20,5 +21,7 @@
 ;; (require 'py-autopep8)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=99"))
+
+(add-hook 'python-mode-hook 'highlight-indentation-mode)
 
 (provide 'den-custom-python)
