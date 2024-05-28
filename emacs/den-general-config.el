@@ -39,6 +39,7 @@
 (global-set-key (kbd "C-x c") 'copy-line)
 (global-set-key (kbd "C-M-z") 'zoom-window-zoom)
 (global-set-key (kbd "C-x #") 'comment-region)
+(global-set-key (kbd "C-x M-f") 'fill-region)
 ;; Setup CTRL-Arrow scrolling to preserve the cursor position, but scroll the window.
 (global-unset-key [C-up])
 (global-set-key [C-up]   '(lambda () "Scroll text down, don't move cursor." (interactive) (scroll-down 1)))
