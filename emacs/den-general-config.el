@@ -89,7 +89,11 @@
 (diminish 'undo-tree-mode)
 (diminish 'flycheck-mode)
 (diminish 'company-mode)
-(diminish 'which-key-mode)
-(diminish 'hs-minor-mode)
+(diminish 'which-key-mode "")
+(diminish 'hs-minor-mode "")
+(diminish 'smerge-mode "")
+(diminish 'yas-minor-mode "")
+(diminish 'auto-revert-mode "")
+(diminish 'eldoc-mode "")
 
 (provide 'den-config)
