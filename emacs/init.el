@@ -44,6 +44,7 @@
     f
     s
     dash
+    lsp-jedi
     ))
 
 ;; Use this line to update packages without checking signatures
