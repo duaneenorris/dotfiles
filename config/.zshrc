@@ -3,7 +3,7 @@ export SHELL=/bin/zsh
 
 # Do this early as some setup files use whence to test for the existance
 # of things normally in ~/.local/bin
-export PATH=~/bin:~/.local:/usr/local/bin:~/.local/usr/bin:~/.local/bin:~/.local/share/umake/bin:/snap/bin:/usr/bin:$PATH
+export PATH=~/bin:~/.local:/usr/local/bin:~/.local/usr/bin:~/.local/bin:~/.local/share/umake/bin:/snap/bin:/usr/bin:~/.zsh/plugins/fzf-zsh-plugin/bin:$PATH
 
 # Turn off Xon/Xoff in this termal so that can use <CTRL-Q> in progs like vim
 stty start undef   # normally ^Q
@@ -258,5 +258,4 @@ if [ -f ~/.zsh_append ]; then
     . ~/.zsh_append
 fi
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.zsh/plugins/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh ]] && source ~/.zsh/plugins/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh

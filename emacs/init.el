@@ -45,6 +45,7 @@
     s
     dash
     lsp-jedi
+    keychain-environment
     ))
 
 ;; Use this line to update packages without checking signatures
@@ -67,6 +68,10 @@
      (add-hook 'after-init-hook 'global-company-mode)
      (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
      (setq company-idle-delay 0)))
+
+;; Load ssh-agent env vars from using keychain
+(require 'keychain-environment)
+(keychain-refresh-environment)
 
 ;; Setup the server
 (load "server")
