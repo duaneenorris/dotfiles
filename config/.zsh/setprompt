@@ -16,9 +16,9 @@ enable_sudo_flag_in_prompt=1
 [[ -e ~/.config/no_sudo_flag_in_prompt ]] && enable_sudo_flag_in_prompt=0
 
 # Options for the gitfast/git-prompt plugin from oh-my-zsh
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUPSTREAM="auto verbose"
+# GIT_PS1_SHOWDIRTYSTATE=1
+# GIT_PS1_SHOWSTASHSTATE=1
+# GIT_PS1_SHOWUPSTREAM="auto verbose"
 GIT_PS1_DESCRIBE_STYLE="branch"
 GIT_PS1_SHOWCOLORHINTS=1
 
@@ -77,14 +77,18 @@ function denprompt {
     local git_info="$(__git_ps1)"
     RPROMPT="${git_info} ${maincolor}%D{%H:%M:%S}%f"
 
+    if [[ -z "$pwd_reduction" ]] ; then
+        pwd_reduction=2
+    fi
+
     # Current directory
     if [[ -n "$fullpath_prompt" ]] ; then
       local cur_path='%d'
     else
-      local pwd_reduced=$(print -rP "%-2~..%2~")
+      local pwd_reduced=$(print -rP "%-${pwd_reduction}~..%${pwd_reduction}~")
       local pwd_exp=$(print -rP "%~")
       local cur_path='%~'
-      [[ ${#pwd_reduced} -lt ${#pwd_exp} ]] && cur_path="%-2~..%2~"
+      [[ ${#pwd_reduced} -lt ${#pwd_exp} ]] && cur_path="%-${pwd_reduction}~..%${pwd_reduction}~"
     fi
     PS1+="${extras}%f:$cur_path %# %b"
 
