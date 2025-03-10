@@ -1,0 +1,152 @@
+;; This .emacs file is linked as the default.el file.
+;; If you wish to use your own .emacs, please link it to ~/.emacs
+;; Keep in mind that you may or may not be able to load packages
+;; if this is on a robot.
+
+;; setup copy line
+  (defun copy-line (arg)
+    "Copy lines (as many as prefix argument) in the kill ring.
+      Ease of use features:
+      - Move to start of next line.
+      - Appends the copy on sequential calls.
+      - Use newline as last char even on the last line of the buffer.
+      - If region is active, copy its lines."
+    (interactive "p")
+    (let ((beg (line-beginning-position))
+          (end (line-end-position arg)))
+      (when mark-active
+        (if (> (point) (mark))
+            (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+          (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+      (if (eq last-command 'copy-line)
+          (kill-append (buffer-substring beg end) (< end beg))
+        (kill-ring-save beg end)))
+    (kill-append "\n" nil)
+    (beginning-of-line (or (and arg (1+ arg)) 2))
+    (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
+
+;; source: https://github.com/MatthewZMD/.emacs.d
+(defun edit-this-with-sudo ()
+  "Either open the file currently opened or selected in dired with `sudo' privilege."
+  (interactive)
+  (let ((buffer-file (buffer-file-name)))
+    (if buffer-file
+        (progn
+          (kill-buffer (buffer-name))
+          (find-file (concat "/sudo:root@" (system-name) ":" buffer-file)))
+      (dolist (file (dired-get-marked-files))
+        (find-file (concat "/sudo:root@" (system-name) ":" file))))))
+
+;; Turn on HideShow
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+
+;; Setup major modes based on file types
+(add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode))
+
+;; Setup ROS C style
+(setq c-default-style "ellemtel"
+      c-basic-offset 4)
+(defun ROS-c-mode-hook()
+  (setq c-basic-offset 2)
+  (setq indent-tabs-mode nil)
+  (c-set-offset 'substatement-open 0)
+  (c-set-offset 'innamespace 0)
+  (c-set-offset 'case-label '+)
+  (c-set-offset 'brace-list-open 0)
+  (c-set-offset 'brace-list-intro '+)
+  (c-set-offset 'brace-list-entry 0)
+  (c-set-offset 'member-init-intro 0)
+  (c-set-offset 'statement-case-open 0)
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-cont-nonempty '+)
+  (c-set-offset 'arglist-close '+)
+  (c-set-offset 'template-args-cont '+))
+(add-hook 'c-mode-common-hook 'ROS-c-mode-hook)
+;;; In order to get namespace indentation correct, .h files must be opened in C++ mode
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
+
+;; Some dired improvements
+;; allow dired to delete or copy dir
+(require 'dired-x)
+(setq dired-recursive-copies (quote always)) ; “always” means no asking
+(setq dired-recursive-deletes (quote top)) ; “top” means ask once
+;; Turn on Target Split window
+(setq dired-dwim-target t)
+;; Use the same buffer for viewing.  ENTER and ^
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+(define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Setup some ediff stuff
+(setq ediff-split-window-function 'split-window-horizontally)
+(defvar my-ediff-last-windows nil)
+(defun my-store-pre-ediff-winconfig ()
+  (setq my-ediff-last-windows (current-window-configuration)))
+(defun my-restore-pre-ediff-winconfig ()
+  (set-window-configuration my-ediff-last-windows))
+(add-hook 'ediff-before-setup-hook #'my-store-pre-ediff-winconfig)
+(add-hook 'ediff-quit-hook #'my-restore-pre-ediff-winconfig)
+
+;; Setup backups and versioning
+(setq
+   backup-by-copying t      ; don't clobber symlinks
+   backup-directory-alist   ; Save the backups out of the way
+    '(("." . "~/.emacs.d/.saves"))
+   delete-old-versions t    ; Silently delete old versions
+   kept-new-versions 2
+   kept-old-versions 2
+   version-control t)       ; use versioned backups
+
+;; General config stuff
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+(load-theme 'wombat)
+(show-paren-mode t)
+(setq confirm-kill-emacs 'y-or-n-p)
+(delete-selection-mode t)
+(setq require-final-newline t)
+(setq column-number-mode t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(setq set-mark-command-repeat-pop t)
+(setq mark-ring-max 5)
+(setq indent-tabs-mode nil)
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+(setq scroll-conservatively 1000)
+; Set large file threshold to 100MB
+(setq large-file-warning-threshold 100000000)
+
+;; Key bindings
+(global-set-key (kbd "C-z") nil)
+(global-set-key (kbd "C-x <up>") 'windmove-up)
+(global-set-key (kbd "C-x <down>") 'windmove-down)
+(global-set-key (kbd "C-x <left>") 'windmove-left)
+(global-set-key (kbd "C-x <right>") 'windmove-right)
+(global-set-key (kbd "C-x c") 'copy-line)
+(global-set-key [home]   'beginning-of-line)          ; Home
+(global-set-key [end]	 'end-of-line)                ; End
+(global-set-key [C-home] '(lambda () "Move to the beginning of the buffer WITHOUT setting the mark."
+                            (interactive)
+                            (goto-char (point-min))))
+(global-set-key [C-end]  '(lambda () "Move to the beginning of the buffer WITHOUT setting the mark."
+                            (interactive)
+                            (goto-char (point-max))))
+;; Setup CTRL-Arrow scrolling to preserve the cursor position, but scroll the window.
+(global-unset-key [C-up])
+(global-set-key [C-up]   '(lambda () "Scroll text down, don't move cursor." (interactive) (scroll-down 1)))
+
+(global-unset-key [C-down])
+(global-set-key [C-down] '(lambda () "Scroll text up in place, don't move cursor." (interactive) (scroll-up 1)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cursor ((t (:background "orange red"))))
+ '(dired-broken-symlink ((t (:background "black" :foreground "red" :weight bold))))
+ '(mode-line ((t (:background "red" :foreground "light gray"))))
+ '(mode-line-inactive ((t (:background "firebrick4" :foreground "black"))))
+ '(powerline-active0 ((t (:inherit mode-line :background "red")))))
