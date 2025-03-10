@@ -10,7 +10,16 @@
    '("-DLIBCLANG_LIBRARY=/usr/lib/llvm-3.5/lib/libclang.so -DLIBCLANG_INCLUDE_DIR=/usr/lib/llvm-3.5/include/"))
  '(lsp-keymap-prefix "s-x")
  '(package-selected-packages
-   '(keychain-environment highlight-indentation yasnippet f dired-narrow dired-ranger dired-subtree dumb-jump irony lsp-jedi treemacs-magit treemacs-icons-dired treemacs-projectile treemacs jedi company-jedi company dash flycheck git-commit magit-section transient with-editor salt-mode gnu-elpa-keyring-update undo-tree zoom-window req-package py-autopep8 powerline magit flycheck-irony el-get company-irony-c-headers company-irony clang-format))
+   '(clang-format company company-irony company-irony-c-headers
+                  company-jedi dash dired-narrow dired-ranger
+                  dired-subtree dumb-jump el-get f flycheck
+                  flycheck-irony git-commit gnu-elpa-keyring-update
+                  highlight-indentation irony jedi
+                  keychain-environment lsp-jedi magit magit-section
+                  powerline py-autopep8 req-package salt-mode
+                  transient treemacs treemacs-icons-dired
+                  treemacs-magit treemacs-projectile undo-tree
+                  with-editor yasnippet zoom-window))
  '(show-paren-mode t)
  '(undo-tree-auto-save-history t)
  '(undo-tree-history-directory-alist '(("" . "~/.saves"))))
