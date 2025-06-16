@@ -32,13 +32,11 @@ See URL `http://pypi.python.org/pypi/ruff'."
   :hook (lsp-managed-mode .
             (lambda ()
               (when (derived-mode-p 'python-mode)
-                (setq my-flycheck-local-cache '((next-checkers . (python-flake8)))))))
+                (setq my-flycheck-local-cache '((next-checkers . (python-ruff)))))))
   :config
   (setq flycheck-check-syntax-automatically '(mode-enabled save new-line idle-change)) ;; new-line also possible
   (setq flycheck-idle-change-delay 1)
   (setq flycheck-flake8rc "/home/duane/dotfiles/flake8")
-  (add-to-list 'flycheck-checkers 'python-ruff)
-  (setq flycheck-python-ruff-config "/home/duane/dotfiles/ruff/ruff.toml")
-  (flycheck-add-next-checker 'python-flake8 'python-ruff))
+  (add-to-list 'flycheck-checkers 'python-ruff))
 
 (provide 'den-custom-flycheck)
