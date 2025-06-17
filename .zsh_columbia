@@ -13,3 +13,4 @@ hash -d ros=/data/ros/src
 hash -d yocto=/data/ros/src/bar_truck/yocto
 hash -d truck=/data/ros/src/bar_truck
 hash -d ycommon=/data/ros/src/yocto-common
+hash -d roscommon=/data/ros/src/bar_truck/ros/common
