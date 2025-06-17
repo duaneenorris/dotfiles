@@ -37,6 +37,7 @@ See URL `http://pypi.python.org/pypi/ruff'."
   (setq flycheck-check-syntax-automatically '(mode-enabled save new-line idle-change)) ;; new-line also possible
   (setq flycheck-idle-change-delay 1)
   (setq flycheck-flake8rc "/home/duane/dotfiles/flake8")
+  (setq flycheck-python-ruff-config "/home/duane/dotfiles/ruff/ruff.toml")
   (add-to-list 'flycheck-checkers 'python-ruff))
 
 (provide 'den-custom-flycheck)
