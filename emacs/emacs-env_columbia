@@ -1,2 +1,2 @@
-PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:/data/ros/src/yocto-common/tmp/work/intel_skylake_64-oe-linux/truck-image/1.0-r0/rootfs/opt/ros/noetic/lib/python3.10/site-packages:/data/ros/src/bar_truck/ros/noetic/devel/lib/python3/dist-packages
+PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:/data/ros/src/yocto-common/tmp/work/intel_skylake_64-oe-linux/truck-image/1.0/rootfs/opt/ros/noetic/lib/python3.12/site-packages:/data/ros/src/yocto-common/tmp/work/intel_skylake_64-oe-linux/truck-image/1.0-r0/rootfs/opt/ros/noetic/lib/python3.10/site-packages:/data/ros/src/bar_truck/ros/noetic/devel/lib/python3/dist-packages
 LSP_USE_PLISTS=true
